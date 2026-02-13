@@ -207,7 +207,6 @@ Make sure all three services are running simultaneously for full system function
 
 ## 👩‍💻 Authors
 - Sane Sasikala
- Team Members 
 - Balireddy Raghava Priya    
 - Sribhashyam Mohana Sri  
 - Shaik Ashfaq Hussain  
