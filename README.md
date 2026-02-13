@@ -207,7 +207,7 @@ Make sure all three services are running simultaneously for full system function
 
 ## 👩‍💻 Authors
 - Sane Sasikala
-- Team Members 
+ Team Members 
 - Balireddy Raghava Priya    
 - Sribhashyam Mohana Sri  
 - Shaik Ashfaq Hussain  
@@ -233,7 +233,5 @@ IEEE Conference Paper:
 
 If you like this project, give it a ⭐ on GitHub!
 
-## ⭐ Support
 
-If you like this project, give it a ⭐ on GitHub!
 # On_Screen_Activity_Tracking_With_Federated_Learning
