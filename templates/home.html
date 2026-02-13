@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+{% block container_class %}d-flex flex-column min-vh-100 justify-content-center align-items-center p-4{% endblock %}
+
+{% block content %}
+<div class="header text-center mb-5">
+    <h1 class="display-4 fw-bold mb-3">
+        <i class="fas fa-graduation-cap me-3 text-primary"></i>FedClassroom Pro
+    </h1>
+    <p class="lead mb-0 text-muted fs-4">AI-powered classroom productivity monitoring</p>
+</div>
+
+<div class="content w-100 text-center" style="max-width: 1000px;">
+    
+    <!-- ✅ CLEAN SUCCESS MESSAGES (NO USER ID) -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="alert-container mb-5" style="max-width: 500px; margin: 0 auto;">
+            {% for category, message in messages %}
+                <div class="alert alert-{{ 'success' if category == 'success' else 'danger' }} alert-dismissible fade show rounded-4 shadow-lg border-0" role="alert">
+                    <div class="d-flex align-items-center">
+                        {% if category == 'success' %}
+                            <i class="fas fa-check-circle text-success fs-4 me-3"></i>
+                            <div>
+                                {{ message }}
+                            </div>
+                        {% else %}
+                            <i class="fas fa-exclamation-circle text-danger fs-4 me-3"></i>
+                            <div>
+                                <strong class="fs-5">Error!</strong><br>
+                                {{ message }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
+    <div class="horizontal-buttons d-flex flex-wrap justify-content-center gap-4 mb-5">
+        <!-- New Student (Registration) -->
+        <div class="btn-container primary flex-grow-1" style="min-width: 240px; max-width: 300px;">
+            <div class="main-btn register-trigger" onclick="showRegisterModal()">
+                <div class="btn-icon">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <div class="btn-content">
+                    <h4>New Student</h4>
+                    <p>Create account</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Student Login -->
+        <div class="btn-container success flex-grow-1" style="min-width: 240px; max-width: 300px;">
+            <div class="main-btn login-trigger" onclick="showLoginModal()">
+                <div class="btn-icon">
+                    <i class="fas fa-sign-in-alt"></i>
+                </div>
+                <div class="btn-content">
+                    <h4>Student Login</h4>
+                    <p>Access dashboard</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Login -->
+        <div class="btn-container warning flex-grow-1" style="min-width: 240px; max-width: 300px;">
+            <div class="main-btn login-trigger" onclick="showAdminModal()">
+                <div class="btn-icon">
+                    <i class="fas fa-crown"></i>
+                </div>
+                <div class="btn-content">
+                    <h4>Admin Login</h4>
+                    <p>Monitor students</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-tagline">
+        <p class="lead text-muted fs-5">
+            <i class="fas fa-brain me-2 text-primary"></i>
+            Privacy-first federated learning
+        </p>
+    </div>
+</div>
+
+<!-- LOGIN MODAL -->
+<div class="modal fade" id="loginModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+            <div class="modal-header border-0 pb-2">
+                <h5 class="modal-title fw-bold fs-4" id="modalTitle">Student Login</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST" action="{{ url_for('login') }}">
+                <div class="modal-body p-4">
+                    <div class="mb-4">
+                        <label class="form-label fw-bold mb-2 fs-6">Email</label>
+                        <input type="email" name="email" class="form-control form-control-lg rounded-3 shadow-sm" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold mb-2 fs-6">Password</label>
+                        <input type="password" name="password" class="form-control form-control-lg rounded-3 shadow-sm" required>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 p-4 pt-0">
+                    <button type="submit" class="btn btn-primary w-100 py-3 fw-bold rounded-3 shadow-lg fs-5">Login</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- REGISTRATION MODAL -->
+<div class="modal fade" id="registerModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+            <div class="modal-header border-0 pb-2">
+                <h5 class="modal-title fw-bold fs-4">
+                    <i class="fas fa-user-plus me-2 text-primary"></i>Create Student Account
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST" action="{{ url_for('register') }}">
+                <div class="modal-body p-4">
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label fw-bold mb-2 fs-6 text-primary">Username</label>
+                            <input type="text" name="username" class="form-control form-control-lg rounded-3 shadow-sm" 
+                                   placeholder="john_doe" maxlength="50" required>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label fw-bold mb-2 fs-6 text-primary">Email</label>
+                            <input type="email" name="email" class="form-control form-control-lg rounded-3 shadow-sm" 
+                                   placeholder="john@school.com" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold mb-2 fs-6 text-primary">Password</label>
+                        <input type="password" name="password" class="form-control form-control-lg rounded-3 shadow-sm" 
+                               placeholder="Choose strong password" minlength="6" required>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 p-4 pt-0">
+                    <button type="submit" class="btn btn-primary w-100 py-3 fw-bold rounded-3 shadow-lg fs-5">
+                        <i class="fas fa-rocket me-2"></i>Create Account
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+body { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%) !important; }
+
+.horizontal-buttons { 
+    display: flex; gap: 1.5rem; justify-content: center; align-items: stretch; 
+    max-width: 950px; margin: 0 auto; flex-wrap: wrap; 
+}
+.btn-container { flex: 1; min-width: 240px; max-width: 300px; }
+.main-btn { 
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    width: 100%; height: 160px; text-decoration: none; border-radius: 20px; padding: 1.5rem;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15); border: none; cursor: pointer;
+}
+.main-btn:hover { transform: translateY(-10px); box-shadow: 0 25px 50px rgba(0,0,0,0.25); }
+.btn-icon { width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-bottom: 1rem; }
+.btn-content h4 { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; }
+.btn-content p { font-size: 0.9rem; color: rgba(255,255,255,0.95); margin: 0; font-weight: 500; }
+
+.primary .main-btn { background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%); color: white; }
+.success .main-btn { background: linear-gradient(135deg, #10b981 0%, #047857 100%); color: white; }
+.warning .main-btn { background: linear-gradient(135deg, #f59e0b 0%, #b45309 100%); color: white; }
+
+.modal-content { border-radius: 20px; background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%); }
+.form-control:focus { border-color: #4f46e5; box-shadow: 0 0 0 0.25rem rgba(79, 70, 229, 0.15); }
+.btn-primary { background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%); border: none; }
+
+@media (max-width: 768px) { .horizontal-buttons { gap: 1rem; } .btn-container { min-width: 200px; } }
+</style>
+
+<script>
+function showLoginModal() { 
+    document.getElementById('modalTitle').textContent = 'Student Login'; 
+    new bootstrap.Modal(document.getElementById('loginModal')).show(); 
+}
+function showAdminModal() { 
+    document.getElementById('modalTitle').textContent = 'Admin Login'; 
+    new bootstrap.Modal(document.getElementById('loginModal')).show(); 
+}
+function showRegisterModal() { 
+    new bootstrap.Modal(document.getElementById('registerModal')).show(); 
+}
+</script>
+{% endblock %}
